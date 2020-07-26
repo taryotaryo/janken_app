@@ -1,12 +1,41 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <h1>じゃんけんゲーム</h1>
+    <div class="inner">
+      <game></game>
+      <score></score>
     </div>
-    <router-view/>
   </div>
 </template>
+
+<script>
+  import Game from './components/Game.vue'; //Gameコンポーネントをインポート
+  import Score from './components/Score.vue'; //Scoreコンポーネントをインポート
+  import Strage from './util/Strage';
+  let storage = new Strage();
+
+export default {
+  name: 'app', //templateタグ内に書かれた基点の要素のid属性の値を指定
+  data () {
+    return {
+      scores: storage.getData('scores') || []
+    }
+  },
+  watch: { //プロパティに変化があった時にアクションを起こす設定。
+    scores: 'saveData'
+  },
+  components: { //importで読み込んだコンポーネントをtemplateタグの中で使えるモジュール化
+    Game,
+    Score
+  },
+  method: {
+    saveData() {
+      storage.setData('scores', this.scores); //localStorageにscoresをセットする
+    }
+  }
+}
+
+</script>
 
 <style>
 #app {
