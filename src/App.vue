@@ -2,6 +2,7 @@
   <div id="app">
     <h1>じゃんけんゲーム</h1>
     <div class="inner">
+      <div><img v-bind:src="src" alt=""></div>
       <game></game>
       <score></score>
     </div>
@@ -11,14 +12,15 @@
 <script>
   import Game from './components/Game.vue'; //Gameコンポーネントをインポート
   import Score from './components/Score.vue'; //Scoreコンポーネントをインポート
-  import Strage from './util/Strage';
-  let storage = new Strage();
+  // import Strage from './util/Strage.js';
+  // let storage = new Strage();
 
 export default {
   name: 'app', //templateタグ内に書かれた基点の要素のid属性の値を指定
   data () {
     return {
-      scores: storage.getData('scores') || []
+      scores: storage.getData('scores') || [],
+      src : 'http://localhost:8080/src/assets/logo.png',
     }
   },
   watch: { //プロパティに変化があった時にアクションを起こす設定。
@@ -44,6 +46,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 1000px;
+  margin: 0 auto;
 }
 
 #nav {
