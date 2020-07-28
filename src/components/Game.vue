@@ -5,7 +5,7 @@
             <div><button v-on:click="start" id="start" class="button">{{ startMessage }}</button></div>
         </div>
         <div class="imgArea"><img v-bind:src="src" alt=""></div>
-        <ul>
+        <ul class="choice-list">
             <li>
                 <button v-on:click="judgment" type="button" value="0" class="button disabled choice" disabled>グー</button>
             </li>
@@ -22,6 +22,7 @@
 <script>
     export default {
         name: 'game',
+        props: ['scores'],
         data() {
             return {
                 src : require('../assets/choki.png'),
@@ -57,8 +58,16 @@
                 this.toggleBtn();
                 clearInterval(this.timer);
                 this.startMessage = 'もういちど';
-                this.resultMessage = decision;
+
+                if ( decision === 0) {
+                    this.resultMessage = 'まけ';
+                } else if ( decision === 1) {
+                    this.resultMessage = 'あいこ';
+                } else if ( decision === 2) {
+                    this.resultMessage = 'かち';
+                }
                 this.toggleStart();
+                this.$parent.scores.push( this.resultMessage ); //resultメッセージを格納する
             },
             toggleBtn() {
                     let btns = document.querySelectorAll('.choice');
@@ -81,40 +90,40 @@
                 }
             },
             decisionJanken(myHand, yourHand) {
-                let result;
+                let result; // 0はまけ、1はあいこ、2はかち
 
                 switch(myHand) {
                     case 0:
                         if(yourHand === 0) {
-                            result = "あいこ";
+                            result = 1;
                             break;
                         } else if(yourHand === 1) {
-                            result = "まけ";
+                            result = 0;
                             break;
                         } else {
-                            result = "かち";
+                            result = 2;
                             break;
                         }
                     case 1:
                         if(yourHand === 0) {
-                            result = "かち";
+                            result = 2;
                             break;
                         } else if(yourHand === 1) {
-                            result = "あいこ";
+                            result = 1;
                             break;
                         } else {
-                            result = "まけ";
+                            result = 0;
                             break;
                         }
                     case 2:
                         if(yourHand === 0) {
-                            result = "まけ";
+                            result = 0;
                             break;
                         } else if(yourHand === 1) {
-                            result = "かち";
+                            result = 2;
                             break;
                         } else {
-                            result = "あいこ";
+                            result = 1;
                             break;
                         }
                 }
@@ -125,7 +134,9 @@
 </script>
 
 <style>
-#game{
+#game h2{
+    color: red;
+    font-size: 30px;
 }
 
 .result{
@@ -136,7 +147,7 @@
     height: 250px;
 }
 
-.button{
+#game .button{
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -169,7 +180,7 @@
     border-bottom: none;
 }
 
-ul {
+.choice-list {
     display: flex;
     justify-content: space-between;
     list-style: none;
