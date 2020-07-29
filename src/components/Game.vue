@@ -65,6 +65,7 @@
                     this.resultMessage = 'あいこ';
                 } else if ( decision === 2) {
                     this.resultMessage = 'かち';
+                    this.$parent.win++;
                 }
                 this.toggleStart();
                 this.$parent.scores.push( this.resultMessage ); //resultメッセージを格納する
