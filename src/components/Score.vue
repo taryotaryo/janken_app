@@ -30,7 +30,7 @@
         computed: {
             winCount() {
                 let persent = Math.floor(this.win / this.all * 100)
-                    if (persent >= 70 ) {
+                    if (persent >= 60 ) {
                     this.scoreMessage = "勝ちすぎぃ"
                     } else if (persent >= 50) {
                     this.scoreMessage = "引き分けすぎぃ"
